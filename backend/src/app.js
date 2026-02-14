@@ -1,10 +1,11 @@
 import express from 'express'
 import cors from 'cors'
+import morgan from 'morgan'
 
 const app = express()
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 
-app.listen(4000, () => {
-    console.log('Server running on port 4000')
-})
+app.use(morgan("dev"))
+
+export default app;
