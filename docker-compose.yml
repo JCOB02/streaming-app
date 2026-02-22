@@ -1,6 +1,13 @@
-version: "3.9"
-
 services:
+  postgres:
+    image: postgres
+    container_name: postgres-netflix
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: netflix_db
+    ports:
+      - "5432:5432"
   backend:
     build: ./backend
     container_name: backend
@@ -8,9 +15,6 @@ services:
       - "4000:4000"
     env_file:
       - ./backend/.env
-    volumes:
-      - ./backend:/app
-    command: npm run dev
 
   frontend:
     build: ./frontend
@@ -19,8 +23,5 @@ services:
       - "3000:3000"
     env_file:
       - ./frontend/.env.local
-    volumes:
-      - ./frontend:/app
     depends_on:
       - backend
-    command: npm run dev
