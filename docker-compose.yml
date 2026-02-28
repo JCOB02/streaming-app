@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-netflix
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: netflix_db
+    ports:
+      - "5432:5432"
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.local
+    depends_on:
+      - backend
