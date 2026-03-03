@@ -43,6 +43,7 @@ model Pelicula {
   titulo           String   @db.VarChar(200)
   descripcion      String   @db.Text
   fechaLanzamiento DateTime @map("fecha_lanzamiento") @db.Date
+  duracion         Int
   rutaCaratula     String   @map("ruta_caratula") @db.VarChar(500)
   rutaVideo        String   @map("ruta_video") @db.VarChar(500)
 
