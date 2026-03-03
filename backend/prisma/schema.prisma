@@ -21,4 +21,63 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  favoritos       Favorito[]
+  visualizaciones Visualizacion[]
+
+  @@map("users")
+}
+
+model Genero {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @db.VarChar(50)
+  
+  // Relación muchos a muchos implícita
+  peliculas Pelicula[]
+  
+  @@map("generos")
+}
+
+model Pelicula {
+  id               String   @id @default(uuid()) @db.Uuid
+  titulo           String   @db.VarChar(200)
+  descripcion      String   @db.Text
+  fechaLanzamiento DateTime @map("fecha_lanzamiento") @db.Date
+  rutaCaratula     String   @map("ruta_caratula") @db.VarChar(500)
+  rutaVideo        String   @map("ruta_video") @db.VarChar(500)
+
+  // Relaciones
+  generos          Genero[]
+  favoritos        Favorito[]
+  visualizaciones  Visualizacion[]
+
+  @@map("peliculas")
+}
+
+model Favorito {
+  usuarioId     String   @map("usuario_id") // Sin @db.Uuid para que coincida exactamente con el id de tu User
+  peliculaId    String   @map("pelicula_id") @db.Uuid
+  fechaAgregado DateTime @default(now()) @map("fecha_agregado")
+
+  // Aquí conectamos con tu modelo "User"
+  usuario       User     @relation(fields: [usuarioId], references: [id])
+  pelicula      Pelicula @relation(fields: [peliculaId], references: [id])
+
+  @@id([usuarioId, peliculaId]) // Llave primaria compuesta
+  @@map("favoritos")
+}
+
+model Visualizacion {
+  usuarioId      String   @map("usuario_id") // Sin @db.Uuid para que coincida exactamente con el id de tu User
+  peliculaId     String   @map("pelicula_id") @db.Uuid
+  minutoPausa    Int      @default(0) @map("minuto_pausa")
+  completada     Boolean  @default(false)
+  ultimaVezVisto DateTime @updatedAt @map("ultima_vez_visto")
+
+  // Aquí conectamos con tu modelo "User"
+  usuario        User     @relation(fields: [usuarioId], references: [id])
+  pelicula       Pelicula @relation(fields: [peliculaId], references: [id])
+
+  @@id([usuarioId, peliculaId]) // Llave primaria compuesta
+  @@map("visualizaciones")
 }
