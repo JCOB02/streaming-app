@@ -26,6 +26,9 @@ services:
       - "4000:4000"
     env_file:
       - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
     depends_on:
       - postgres
     command: sh -c "npx prisma migrate deploy && npm run dev"
@@ -37,5 +40,8 @@ services:
       - "3000:3000"
     env_file:
       - ./frontend/.env.local
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
