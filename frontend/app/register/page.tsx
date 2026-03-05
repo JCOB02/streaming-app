@@ -9,6 +9,7 @@ export default function RegisterPage() {
         name: "",
         email: "",
         password: "",
+        confirmPassword: "",
     });
 
     const [error, setError] = useState("");
@@ -28,13 +29,10 @@ export default function RegisterPage() {
         setError("");
         setSuccess(false);
 
-        // 🔹 Validación campos vacíos
         if (!form.name || !form.email || !form.password) {
             setError("Todos los campos son obligatorios");
             return;
         }
-
-        // 🔹 AQUÍ va la validación del email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailRegex.test(form.email)) {
@@ -44,6 +42,11 @@ export default function RegisterPage() {
 
         if (form.password.length < 8) {
             setError("La contraseña debe tener mínimo 8 caracteres");
+            return;
+        }
+
+        if(form.password !== form.confirmPassword) {
+            setError("Las contraseñas no coinciden");
             return;
         }
 
@@ -75,7 +78,7 @@ export default function RegisterPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
-            <div className="w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl p-8 shadow-xl">
+            <div className="w-full max-w-xl border-gray-700 rounded-2xl p-8 shadow-xl">
                 <h1 className="text-3xl font-bold text-white text-center">
                     Crear cuenta
                 </h1>
@@ -83,27 +86,26 @@ export default function RegisterPage() {
                     Regístrate para comenzar
                 </p>
 
-                {error && (
-                    <p className="text-sm text-red-400 text-center">
-                        {error}
-                    </p>
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+
+                    {error && (
+                        <div className="border border-red-400 text-red-400 px-4 py-3 rounded text-sm relative" role="alert">
+                            <span className="block sm:inline">{error}</span>
+                        </div>
+                    )}
+
                     <Input
-                        label="Nombre"
+                        label="Primer nombre y apellido"
                         name="name"
                         type="text"
-                        placeholder="Tu nombre"
                         value={form.name}
                         onChange={handleChange}
                     />
 
                     <Input
-                        label="Email"
+                        label="Correo electrónico"
                         name="email"
                         type="email"
-                        placeholder="correo@ejemplo.com"
                         value={form.email}
                         onChange={handleChange}
                     />
@@ -112,15 +114,23 @@ export default function RegisterPage() {
                         label="Contraseña"
                         name="password"
                         type="password"
-                        placeholder="••••••••"
                         value={form.password}
                         onChange={handleChange}
                     />
 
+                    <Input
+                        label="Repite tu contraseña"
+                        type="password"
+                        name="confirmPassword"
+                        value={form.confirmPassword}
+                        onChange={handleChange}
+                    />
+
+
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition-colors"
+                        className="w-full bg-blue-600 font-bold disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-lg transition-colors"
                     >
                         {loading ? "Registrando..." : "Registrarse"}
                     </button>
