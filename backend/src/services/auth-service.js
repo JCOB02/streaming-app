@@ -37,13 +37,13 @@ export const loginUser = async ({ email, password }) => {
   });
 
   if (!user) {
-    throw new Error("Credenciales inválidas");
+    throw new Error("El correo o contraseña con incorrectos");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    throw new Error("Credenciales inválidas");
+    throw new Error("El correo o contraseña con incorrectos");
   }
 
   const token = jwt.sign(
