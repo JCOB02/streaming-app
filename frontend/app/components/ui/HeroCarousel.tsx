@@ -1,71 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
-const SLIDES = [
-  {
-    title: "Thor: Ragnarok",
-    meta: "2017 • Acción",
-    desc:
-      "Thor está encarcelado en el otro lado del universo y corre una carrera contra el tiempo. Debe detener el Ragnarok.",
-    // pon aquí la imagen exacta que uses en tu diseño (en /public/assets/...)
-    // Si en tu CSS ya lo maneja por background, puedes dejarlo vacío.
-    bg: "/assets/postersaprobados/thor.jpg",
-  },
-  // agrega los 2 slides que ya trae el HTML si quieres que sea 1:1
-];
+type Slide = {
+  title: string;
+  meta: string;
+  description: string;
+  background: string;
+};
 
 export default function HeroCarousel() {
-  const [i, setI] = useState(0);
+  const slides: Slide[] = useMemo(
+    () => [
+      {
+        title: "Coco",
+        meta: "2017 • Animación • Pixar",
+        description: "Un viaje increíble entre música, familia y recuerdos.",
+        background:
+          "https://image.tmdb.org/t/p/original/askg3SMvhqEl4OL52YuvdtY40Yb.jpg",
+      },
+      {
+        title: "Avengers",
+        meta: "2012 • Acción • Marvel",
+        description: "Los héroes se unen para salvar el mundo.",
+        background:
+          "https://image.tmdb.org/t/p/original/hbn46fQaRmlpBuUrEiFqv0GDL6Y.jpg",
+      },
+      {
+        title: "Minions",
+        meta: "2015 • Animación • Comedia",
+        description: "Caos y diversión con los minions.",
+        background:
+          "https://image.tmdb.org/t/p/original/uX7LXnsC7bZJZjn048UCOwkPXWJ.jpg",
+      },
+    ],
+    []
+  );
+
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % SLIDES.length), 6000);
-    return () => clearInterval(t);
-  }, []);
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % slides.length);
+    }, 5000);
 
-  const prev = () => setI((v) => (v - 1 + SLIDES.length) % SLIDES.length);
-  const next = () => setI((v) => (v + 1) % SLIDES.length);
+    return () => clearInterval(t);
+  }, [slides.length]);
 
   return (
-    <section className="hero-banner">
-      <div className="banner-slide active" style={{ backgroundImage: `url(${SLIDES[i].bg})` }}>
-        <div className="banner-content">
-          <h1 className="banner-title">{SLIDES[i].title}</h1>
-          <div className="banner-meta">
-            <span className="highlight">{SLIDES[i].meta}</span>
-          </div>
-          <p className="banner-description">{SLIDES[i].desc}</p>
+    <section className="relative mb-10 h-[75vh] w-full overflow-hidden">
+      {slides.map((slide, i) => (
+        <div
+          key={slide.title}
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${
+            i === index ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ backgroundImage: `url(${slide.background})` }}
+        />
+      ))}
 
-          <div className="banner-buttons">
-            <Link href="/peliculas" className="btn-primary">
-              <span>▶</span> Reproducir
-            </Link>
-            <Link href="/peliculas" className="btn-secondary">
-              <span>ℹ</span> Más Información
-            </Link>
-          </div>
-        </div>
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0c15] via-transparent to-transparent" />
 
-      <div className="hero-controls">
-        <button id="hero-prev" className="hero-btn" aria-label="Anterior" type="button" onClick={prev}>
-          &lt;
+      <div className="absolute bottom-20 left-10 max-w-xl text-white">
+        <h1 className="mb-4 text-5xl font-bold">{slides[index].title}</h1>
+        <p className="mb-4 text-[#aeb4c0]">{slides[index].meta}</p>
+        <p className="mb-6">{slides[index].description}</p>
+        <button className="rounded-full bg-[#3a86ff] px-6 py-3 font-semibold">
+          ▶ Ver ahora
         </button>
-        <button id="hero-next" className="hero-btn" aria-label="Siguiente" type="button" onClick={next}>
-          &gt;
-        </button>
-      </div>
-
-      <div className="hero-indicators">
-        {SLIDES.map((_, idx) => (
-          <span
-            key={idx}
-            className={`indicator ${idx === i ? "active" : ""}`}
-            data-slide={idx}
-            onClick={() => setI(idx)}
-          />
-        ))}
       </div>
     </section>
   );
