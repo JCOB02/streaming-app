@@ -11,7 +11,7 @@ export default function PeliculasPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-6">
+        <div className="min-h-screen p-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">Películas</h1>
 

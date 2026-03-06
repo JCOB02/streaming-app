@@ -28,7 +28,7 @@ export default function LoginPage() {
         setError("");
 
         if (!form.email || !form.password) {
-            setError("Email y contraseña son obligatorios");
+            setError("El correo y contraseña son obligatorios");
             return;
         }
 
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
-            <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-700">
+            <div className="w-full max-w-xl rounded-2xl shadow-xl p-8">
                 <h1 className="text-3xl font-bold text-white text-center mb-2">
                     StreamHub
                 </h1>
@@ -72,11 +72,16 @@ export default function LoginPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
 
+                    {error && (
+                        <div className="border border-red-400 text-red-400 px-4 py-3 rounded text-sm relative" role="alert">
+                            <span className="block sm:inline">{error}</span>
+                        </div>
+                    )}
+
                     <Input
-                        label="Correo"
+                        label="Correo electrónico"
                         type="email"
                         name="email"
-                        placeholder="Correo electrónico"
                         value={form.email}
                         onChange={handleChange}
                     />
@@ -85,21 +90,14 @@ export default function LoginPage() {
                         label="Contraseña"
                         type="password"
                         name="password"
-                        placeholder="Ingresa tu contraseña"
                         value={form.password}
                         onChange={handleChange}
                     />
 
-                    {error && (
-                        <p className="text-sm text-red-400 text-center">
-                            {error}
-                        </p>
-                    )}
-
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full mt-4 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition-colors"
+                        className="w-full mt-4 bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed font-bold py-4 rounded-md transition-colors"
                     >
                         {loading ? "Ingresando..." : "Iniciar sesión"}
                     </button>
