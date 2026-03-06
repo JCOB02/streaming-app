@@ -1,29 +1,39 @@
-"use client";
+import Navbar from "../components/ui/Navbar";
+import Link from "next/link";
 
-import { useRouter } from "next/navigation";
+const MOVIES = [
+  { title: "Hotel Transilvania 3", year: "2018", genre: "Animación", img: "/assets/postersaprobados/hoteltransilvania3.jpg" },
+  { title: "La Sirenita", year: "2023", genre: "Animación", img: "/assets/postersaprobados/lasirenita.jpg" },
+  // agrega las que tengas en assets (sin inventar rutas)
+];
 
-export default function PeliculasPage() {
-    const router = useRouter();
+export default function Peliculas() {
+  return (
+    <>
+      <Navbar />
+      <main className="movies-main">
+        <section className="az-section">
+          <h2 className="az-header">A</h2>
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        router.replace("/login");
-    };
-
-    return (
-        <div className="min-h-screen p-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Películas</h1>
-
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-lg transition"
-                >
-                    Cerrar sesión
-                </button>
-            </div>
-
-            {/* Aquí irá tu contenido después */}
-        </div>
-    );
+          <div className="movies-grid">
+            {MOVIES.map((m) => (
+              <Link key={m.title} href="/peliculas" className="movie-card">
+                <div className="card-image">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={m.img} alt={m.title} />
+                  <div className="card-overlay">
+                    <button className="play-btn" type="button">▶ Reproducir</button>
+                  </div>
+                </div>
+                <div className="card-info">
+                  <h3>{m.title}</h3>
+                  <p>{m.year} • {m.genre}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </main>
+    </>
+  );
 }
