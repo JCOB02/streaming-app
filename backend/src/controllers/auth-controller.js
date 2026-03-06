@@ -3,11 +3,17 @@ import { registerUser, loginUser } from "../services/auth-service.js"
 
 export const register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, confirmPassword, name } = req.body;
 
-    if (!email || !password || !name) {
+    if (!email || !password || !confirmPassword || !name) {
       return res.status(400).json({
         message: "Todos los campos son obligatorios",
+      });
+    }
+
+    if(password !== confirmPassword) {
+      return res.status(400).json({
+        message: 'Las contraseñas no coinciden'
       });
     }
 
@@ -30,7 +36,7 @@ export const login = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        message: "Email y password requeridos",
+        message: "El correo y contraseña son obligatorios",
       });
     }
 
