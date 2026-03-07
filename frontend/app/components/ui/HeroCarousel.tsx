@@ -24,14 +24,14 @@ export default function HeroCarousel() {
         meta: "2012 • Acción • Marvel",
         description: "Los héroes se unen para salvar el mundo.",
         background:
-          "https://image.tmdb.org/t/p/original/hbn46fQaRmlpBuUrEiFqv0GDL6Y.jpg",
+          "https://static01.nyt.com/images/2017/07/14/arts/14WARPLANET/14WARPLANET-videoSixteenByNineJumbo1600.jpg",
       },
       {
         title: "Minions",
         meta: "2015 • Animación • Comedia",
         description: "Caos y diversión con los minions.",
         background:
-          "https://image.tmdb.org/t/p/original/uX7LXnsC7bZJZjn048UCOwkPXWJ.jpg",
+          "https://media.revistagq.com/photos/5f5f50fa09c89c3fca562703/16:9/w_2560%2Cc_limit/leonardo-dicaprio-el-lobo-de-wall-street.jpg",
       },
     ],
     []

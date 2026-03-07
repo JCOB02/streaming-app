@@ -46,6 +46,8 @@ model Pelicula {
   duracion         Int
   rutaCaratula     String   @map("ruta_caratula") @db.VarChar(500)
   rutaVideo        String   @map("ruta_video") @db.VarChar(500)
+  rutaImagenFondo  String   @map("ruta_imagen_fondo") @db.VarChar(500)
+  rutaTrailer      String   @map("ruta_trailer") @db.VarChar(500)
 
   // Relaciones
   generos          Genero[]
